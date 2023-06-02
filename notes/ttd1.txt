@@ -1,0 +1,12 @@
+filter out only rated bonds
+	justification: because we want to see the notch variance, need real rating
+filter out bonds that are at least traded within 1 month old (the past month)
+	justification: to have a minimum lookback of only 1 month for liquidity tracker
+
+liquidity tracker
+	for each day, what would be the composite liquidity score for government issued bonds?
+
+BIR 
+	for each day, what would be the notch variance for government issued bonds?\
+
+ML160001
