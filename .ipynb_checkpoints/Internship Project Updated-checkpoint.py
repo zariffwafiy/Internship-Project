@@ -2438,7 +2438,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "2849fcf3",
+   "id": "a0f168f0",
    "metadata": {},
    "source": [
     "## Recommendation Section"
@@ -2446,7 +2446,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "95e412dc",
+   "id": "503d0b21",
    "metadata": {},
    "source": [
     "Retreive the best time for buyers and sellers of the bond\n",
@@ -2460,7 +2460,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "3868ad1b",
+   "id": "17ada388",
    "metadata": {},
    "source": [
     "### Buyer"
@@ -2469,7 +2469,7 @@
   {
    "cell_type": "code",
    "execution_count": 64,
-   "id": "bd795558",
+   "id": "b1f2ec08",
    "metadata": {
     "scrolled": true
    },
@@ -2502,7 +2502,7 @@
   },
   {
    "cell_type": "markdown",
-   "id": "4e7032e2",
+   "id": "25e4e402",
    "metadata": {},
    "source": [
     "### Seller"
@@ -2511,7 +2511,7 @@
   {
    "cell_type": "code",
    "execution_count": 62,
-   "id": "d0e39c22",
+   "id": "ad47fe3f",
    "metadata": {},
    "outputs": [
     {
@@ -2543,7 +2543,7 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "1cfd8342",
+   "id": "dd70bd9e",
    "metadata": {},
    "outputs": [],
    "source": []
