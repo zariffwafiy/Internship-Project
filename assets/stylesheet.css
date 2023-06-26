@@ -1,0 +1,38 @@
+.body {
+    background-color: aqua;
+}
+
+.header {
+    justify-content: center;
+    background-color: steelblue;
+    padding: 20px 0px 20px 0px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.header-title {
+    text-align: center;
+}
+
+.header-description {
+    text-align: center;
+}
+
+.bond-filter {
+    justify-content: center;
+    padding-bottom: 20px; 
+    margin-top: 20px;
+}
+
+.bond-filter-title {
+    text-align: center;
+}
+
+.lag-order-filter-title {
+    text-align: center;
+}
+
+.forecast-horizon-filter-title {
+    text-align: center;
+}
+

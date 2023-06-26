@@ -124,11 +124,6 @@ heatmap.set_title("Correlation Heatmap", fontdict= {
 #     * higher notch variance means that the BIR is worse than credit rating**
 # 
 
-# *Observe that there is a strong positive correlation between notch variance and outstanding amount,
-# the higher the oustanding amount, the higher the notch_variance (dated)
-# 
-# *Meaning that when the bond is recently introduced in the primary market with high oustanding amount, the price of bonds will be much closer with the credit rating, which makes sense.(dated)
-
 # choose the bond with the highest occurence
 #print(df["BOND_CODE"].value_counts().head(1))
 
@@ -505,7 +500,7 @@ app.layout = html.Div(
                         } 
                         for bond in unique_bonds
                     ],
-                    value = "GENM CAPITAL MTN 3652D 31.3.2027",
+                    value = "TG EXCELLENCE SUKUK WAKALAH (TRANCHE 1)",
                     clearable = False,
                     className = "bond-filter"
                 )
@@ -535,7 +530,7 @@ app.layout = html.Div(
                     max = 10,
                     step = 1,
                     value = 1,
-                    marks={i: f'{i}' for i in range(1, 10)}
+                    marks={i: str(i) for i in range(1, 10 + 1)}
                 )
             ],
             className= "lag-order-filter"
@@ -553,7 +548,7 @@ app.layout = html.Div(
                     max = 30,
                     step = 1,
                     value = 1,
-                    marks={i: f'{i}' for i in range(1, 30)}
+                    marks={i: str(i) for i in range(1, 30 + 1)}
                 )
             ],
             className = "forecast-horizon-filter"
@@ -600,7 +595,6 @@ def update_charts(bond_name, lag_order, forecast_horizon):
     z = results.forecast(y = forecast_input, steps = forecast_horizon)
     index = pd.date_range(start='29/4/2023',periods=forecast_horizon,freq='D')
     df_forecast = pd.DataFrame(z, index = index, columns = df_diff.columns)
-    print(df_forecast)
 
     line_chart_figure_1 = {
         "data": [
@@ -610,10 +604,10 @@ def update_charts(bond_name, lag_order, forecast_horizon):
                 y = new_data["NOTCH_VARIANCE"],
                 mode = "lines",
                 line = dict(
-                    color = "#0000FF", # blue
+                    color = "#101D6B", # blue
                     width = 2
                 ),
-                name = "NOTCH_VARIANCE"
+                name = "BIR"
             ),
             # CLS
             go.Scatter(
@@ -621,16 +615,22 @@ def update_charts(bond_name, lag_order, forecast_horizon):
                 y = new_data["COMPOSITE_LIQUIDITY_SCORE"],
                 mode = "lines",
                 line = dict(
-                    color = "#FFFF00",
+                    color = "#FDD128",
                     width = 2
                 ),
-                name = "COMPOSITE_LIQUIDITY_SCORE"
+                name = "CLS"
             )
         ],
         "layout": go.Layout(
             title = {
                 "text" : "Bond: " + bond_name + " (" + bond_code + ")"
-            }
+            },
+            xaxis = dict(
+                title = "Date"
+            ),
+            yaxis = dict(
+                title = "Actual Values"
+            )
         )
     }
 
@@ -641,19 +641,39 @@ def update_charts(bond_name, lag_order, forecast_horizon):
                 x = train_data.index,
                 y = train_data["NOTCH_VARIANCE"],
                 mode = "lines",
-                name = "train_BIR",
+                name = "BIR",
+                line = dict(color = "#101D6B")
+            ),
+            go.Scatter(
+                x=[train_data.index[-1], test_data.index[0]],
+                y=[train_data["NOTCH_VARIANCE"].iloc[-1], test_data["NOTCH_VARIANCE"].iloc[0]],
+                mode="lines",
+                name = "BIR", 
+                line=dict(color='#101D6B', dash='dash'),
+                showlegend = False
             ),
             go.Scatter(
                 x = test_data.index,
                 y = test_data["NOTCH_VARIANCE"],
                 mode = "lines",
-                name = "test_BIR",
+                name = "BIR",
+                line = dict(color = "#101D6B"),
+                showlegend = False
             ),
             go.Scatter(
                 x = df_forecast.index, 
                 y = df_forecast["NOTCH_VARIANCE"],
                 mode = "lines",
-                name = "forecasted_BIR"
+                name = "Forecasted BIR",
+                line = dict(color = "#A020F0")
+            ),
+             go.Scatter(
+                x=[test_data.index[-1], df_forecast.index[0]],
+                y=[test_data["NOTCH_VARIANCE"].iloc[-1], df_forecast["NOTCH_VARIANCE"].iloc[0]],
+                mode="lines",
+                name = "Forecasted BIR", 
+                line=dict(color='#A020F0', dash='dash'),
+                showlegend = False
             ),
 
             # COMPOSITE_LIQUIDITY_SCORE
@@ -661,25 +681,51 @@ def update_charts(bond_name, lag_order, forecast_horizon):
                 x = train_data.index,
                 y = train_data["COMPOSITE_LIQUIDITY_SCORE"],
                 mode = "lines",
-                name = "train_CLS"
+                name = "CLS",
+                line = dict(color = "#FDD128")
+            ),
+            go.Scatter(
+                x=[train_data.index[-1], test_data.index[0]],
+                y=[train_data["COMPOSITE_LIQUIDITY_SCORE"].iloc[-1], test_data["COMPOSITE_LIQUIDITY_SCORE"].iloc[0]],
+                mode="lines",
+                name = "CLS", 
+                line=dict(color='#FDD128', dash='dash'),
+                showlegend = False
             ),
             go.Scatter(
                 x = test_data.index,
                 y = test_data["COMPOSITE_LIQUIDITY_SCORE"],
                 mode = "lines",
-                name = "test_CLS"
+                name = "CLS",
+                line = dict(color = "#FDD128"),
+                showlegend = False
             ),
             go.Scatter(
                 x = df_forecast.index,
                 y = df_forecast["COMPOSITE_LIQUIDITY_SCORE"],
                 mode = "lines",
-                name = "forecasted_CLS"
+                name = "Forecasted CLS",
+                line = dict(color = "#FFA500")
+            ),
+            go.Scatter(
+                x=[test_data.index[-1], df_forecast.index[0]],
+                y=[test_data["COMPOSITE_LIQUIDITY_SCORE"].iloc[-1], df_forecast["COMPOSITE_LIQUIDITY_SCORE"].iloc[0]],
+                mode="lines",
+                name = "Forecasted CLS", 
+                line=dict(color='#FFA500', dash='dash'),
+                showlegend = False
             )
         ],
         "layout" : go.Layout(
             title = {
-                "text" : "Forecasted values"
-            }
+                "text" : "Forecasted Bond: " + bond_name + " (" + bond_code + ")"
+            },
+            xaxis = dict(
+                title = "Date"
+            ),
+            yaxis = dict(
+                title = "Forecasted Values"
+            )
         )
     }
 
