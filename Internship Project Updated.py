@@ -462,7 +462,7 @@ unique_bonds = sorted(df["BOND_NAME"].unique().tolist())
 # dash app
 app = dash.Dash(__name__)
 
-app.title = "Time Series Forecasting"
+app.title = "Analyzing Bond Dynamics"
 
 app.layout = html.Div(
     children = [
@@ -472,7 +472,7 @@ app.layout = html.Div(
                 html.Div(
                     children = [
                         html.H1(
-                            "Time Series Forecasting",
+                            "Analyzing Bond Dynamics",
                             className= "header-title"
                         ),
                         html.P(
